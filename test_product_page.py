@@ -21,6 +21,7 @@ class TestUserAddToCartFromProductPage():
         login_page.user_is_logged()
         yield
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_cart(self, browser):
         link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
         page = ProductPage(browser, link)
@@ -35,6 +36,15 @@ class TestUserAddToCartFromProductPage():
         page.open()
         page.should_not_be_success_message()
 
+@pytest.mark.need_review
+def test_guest_can_add_product_to_cart(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_card()
+    page.should_contains_product_name_in_success_message(page.product_name(), page.success_message())
+    page.should_contains_product_price_in_basket_total(page.product_price(), page.basket_message())
+
 
 def test_guest_should_see_login_link_on_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
@@ -43,6 +53,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     page = ProductPage(browser, link)
@@ -52,6 +63,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page.should_be_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_cart_opened_from_main_page(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     page = MainPage(browser, link)
